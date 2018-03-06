@@ -28,9 +28,13 @@ open class DataService<T>(clazz: Class<T>) {
 
     fun delete(vararg data: T) = box.remove(data.toList())
 
-    fun queryBuilder(): QueryBuilder<T>? = box.query()
+    fun queryBuilder(): QueryBuilder<T> = box.query()
 
-    fun executeQuery(builder: QueryBuilder<T>) = builder.build().find()
+    fun executeQuery(config: (QueryBuilder<T>) -> QueryBuilder<T>){
+        val builder = queryBuilder()
+        config(builder).build().find()
+    }
 
     fun deleteAll() = box.removeAll()
 }
+

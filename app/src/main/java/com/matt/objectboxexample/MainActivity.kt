@@ -23,12 +23,12 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG,"All names starting with with A: " + dataService.queryBuilder()?.startsWith(Person_.name, "A")?.build()?.find())
 
         Log.d(TAG,"All names starting with with A or S: " +
-                dataService.queryBuilder()
-                        ?.startsWith(Person_.name, "S")
-                        ?.or()
-                        ?.startsWith(Person_.name, "A")
-                        ?.build()
-                        ?.find())
+                dataService.executeQuery({
+                    it.startsWith(Person_.name, "S")
+                            .or()
+                            .startsWith(Person_.name, "A")
+                })
+        )
 
         Log.d(TAG,"Find Andrew: " + dataService.queryBuilder()?.equal(Person_.name, "Andrew")?.build()?.find())
     }

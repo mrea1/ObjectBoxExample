@@ -4,6 +4,7 @@ import android.content.Context
 import io.objectbox.Box
 import io.objectbox.BoxStore
 import io.objectbox.kotlin.boxFor
+import io.objectbox.query.Query
 import io.objectbox.query.QueryBuilder
 
 /**
@@ -24,16 +25,23 @@ open class DataService<T>(clazz: Class<T>) {
 
     fun getAll(): List<T> = box.all
 
+    fun getFilteredData(config: (QueryBuilder<T>) -> QueryBuilder<T>): List<T>{
+        val query = getQuery(config)
+
+        val data = query.find()
+        query.close()
+
+        return data
+    }
+
+    fun getQuery(config: (QueryBuilder<T>) -> QueryBuilder<T>): Query<T> {
+        val builder = box.query()
+        return config(builder).build()
+    }
+
     fun add(vararg data: T) = box.put(data.asList())
 
     fun delete(vararg data: T) = box.remove(data.toList())
-
-    fun queryBuilder(): QueryBuilder<T> = box.query()
-
-    inline fun executeQuery(config: (QueryBuilder<T>) -> QueryBuilder<T>){
-        val builder = queryBuilder()
-        config(builder).build().find()
-    }
 
     fun deleteAll() = box.removeAll()
 }

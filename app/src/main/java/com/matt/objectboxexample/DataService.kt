@@ -20,7 +20,7 @@ open class DataService<T>(clazz: Class<T>) {
         }
     }
 
-    val box: Box<T> = boxStore.boxFor(clazz)
+    private val box: Box<T> = boxStore.boxFor(clazz)
 
     fun getAll(): List<T> = box.all
 
@@ -28,7 +28,7 @@ open class DataService<T>(clazz: Class<T>) {
 
     fun delete(vararg data: T) = box.remove(data.toList())
 
-    fun queryBuilder() = box.query()
+    fun queryBuilder(): QueryBuilder<T>? = box.query()
 
     fun executeQuery(builder: QueryBuilder<T>) = builder.build().find()
 

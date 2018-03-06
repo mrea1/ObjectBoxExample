@@ -1,41 +1,48 @@
 package com.matt.objectboxexample
 
+import android.content.Context
 import io.objectbox.Box
+import io.objectbox.BoxStore
 import io.objectbox.kotlin.boxFor
+import io.objectbox.query.Query
 import io.objectbox.query.QueryBuilder
 
 /**
  * Created by matt on 3/1/2018.
  */
 
-open class DataService<T : Any>(app: App) {
+open class DataService<T>(clazz: Class<T>) {
 
-    val boxStore = app.boxStore
-    var box: Box<T>? = null
+    companion object {
+        private lateinit var boxStore: BoxStore
 
-    private fun <V> checkStarted(func: (box: Box<T>) -> V) : V {
-        if (box == null) {
-            throw IllegalStateException("You must call start() before using the service")
-        } else {
-           return func(box!!)
+        fun init(context: Context) {
+            boxStore = MyObjectBox.builder().androidContext(context).build()
         }
     }
 
-    fun getAll(): List<T> = checkStarted { it.all as List<T> }
+    private val box: Box<T> = boxStore.boxFor(clazz)
 
-    fun add(vararg data: T) = checkStarted { it.put(data.asList()) }
+    fun getAll(): List<T> = box.all
 
-    fun delete(vararg data: T) = checkStarted { it.remove(data.toList()) }
+    fun getFilteredData(config: (QueryBuilder<T>) -> QueryBuilder<T>): List<T>{
+        val query = getQuery(config)
 
-    fun queryBuilder() = checkStarted { it.query() }
+        val data = query.find()
+        query.close()
 
-    fun executeQuery(builder: QueryBuilder<T>) = checkStarted { builder.build().find() }
+        return data
+    }
 
-    fun deleteAll() = checkStarted { it.removeAll() }
+    fun getQuery(config: (QueryBuilder<T>) -> QueryBuilder<T>): Query<T> {
+        val builder = box.query()
+        return config(builder).build()
+    }
 
+    fun add(vararg data: T) = box.put(data.asList())
+
+    fun delete(vararg data: T) = box.remove(data.toList())
+
+    fun deleteAll() = box.removeAll()
 }
 
-inline fun <reified T : Any> DataService<T>.start() : DataService<T> {
-    box = boxStore.boxFor()
-    return this
-}

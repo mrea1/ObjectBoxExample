@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ObjectBoxExample.iml" filepath="$PROJECT_DIR$/ObjectBoxExample.iml" />
+      <module fileurl="file://D:\work\ObjectBoxExample\ObjectBoxExample.iml" filepath="D:\work\ObjectBoxExample\ObjectBoxExample.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\work\ObjectBoxExample\app\app.iml" filepath="D:\work\ObjectBoxExample\app\app.iml" />
     </modules>
   </component>
 </project>

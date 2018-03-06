@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val dataService = DataService<Person>(application as App).start()
+        val dataService = DataService(Person::class.java)
 
         dataService.deleteAll()
 
@@ -20,16 +20,24 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG,"Full list: " + dataService.getAll())
 
-        Log.d(TAG,"All names starting with with A: " + dataService.queryBuilder()?.startsWith(Person_.name, "A")?.build()?.find())
+        Log.d(TAG,"All names starting with with A: " +
+                dataService.getFilteredData({
+                    it.startsWith(Person_.name, "A")
+                })
+        )
 
         Log.d(TAG,"All names starting with with A or S: " +
-                dataService.queryBuilder()
-                        ?.startsWith(Person_.name, "S")
-                        ?.or()
-                        ?.startsWith(Person_.name, "A")
-                        ?.build()
-                        ?.find())
+                dataService.getFilteredData({
+                    it.startsWith(Person_.name, "S")
+                            .or()
+                            .startsWith(Person_.name, "A")
+                })
+        )
 
-        Log.d(TAG,"Find Andrew: " + dataService.queryBuilder()?.equal(Person_.name, "Andrew")?.build()?.find())
+        Log.d(TAG,"Find Andrew: " +
+                dataService.getFilteredData({
+                    it.equal(Person_.name, "Andrew")
+                })
+        )
     }
 }

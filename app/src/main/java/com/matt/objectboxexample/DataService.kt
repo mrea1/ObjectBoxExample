@@ -30,7 +30,7 @@ open class DataService<T>(clazz: Class<T>) {
 
     fun queryBuilder(): QueryBuilder<T> = box.query()
 
-    fun executeQuery(config: (QueryBuilder<T>) -> QueryBuilder<T>){
+    inline fun executeQuery(config: (QueryBuilder<T>) -> QueryBuilder<T>){
         val builder = queryBuilder()
         config(builder).build().find()
     }

@@ -4,31 +4,36 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:2787114411053220286",
-      "lastPropertyId": "2:5962003283916420970",
-      "name": "AndroidDevice",
+      "id": "2:2777837189975340590",
+      "lastPropertyId": "2:8140317844019310339",
+      "name": "Person",
       "properties": [
         {
-          "id": "1:7818621312786495069",
+          "id": "1:1880328636954031830",
           "name": "id"
         },
         {
-          "id": "2:5962003283916420970",
+          "id": "2:8140317844019310339",
           "name": "name"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:2787114411053220286",
+  "lastEntityId": "2:2777837189975340590",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    2787114411053220286
+  ],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    7818621312786495069,
+    5962003283916420970
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

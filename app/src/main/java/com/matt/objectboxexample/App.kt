@@ -9,12 +9,10 @@ import io.objectbox.BoxStore
 
 class App : Application() {
 
-    //Reference to app database
-    lateinit var boxStore: BoxStore
-
     override fun onCreate() {
         super.onCreate()
-        boxStore = MyObjectBox.builder().androidContext(this).build()
+
+        DataService.init(this)
     }
 }
 

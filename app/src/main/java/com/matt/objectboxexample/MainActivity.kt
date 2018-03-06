@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val dataService = DataService<Person>(application as App).start()
+        val dataService = DataService(Person::class.java)
 
         dataService.deleteAll()
 

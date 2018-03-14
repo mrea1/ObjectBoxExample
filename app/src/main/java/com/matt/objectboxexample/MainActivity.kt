@@ -12,6 +12,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        testingPerson()
+        testingPeople()
+    }
+
+    fun testingPerson(){
         val dataService = DataService(Person::class.java)
 
         dataService.deleteAll()
@@ -39,5 +44,23 @@ class MainActivity : AppCompatActivity() {
                     it.equal(Person_.name, "Andrew")
                 })
         )
+    }
+
+    fun testingPeople(){
+        val dataService = DataService(People::class.java)
+        dataService.deleteAll()
+
+        val testPeople = People().apply {
+            people.addAll(arrayListOf(Person(name="Andrew"), Person(name="Ash"), Person(name="Sam"), Person(name="Scott"), Person(name="Saurav"), Person(name="Joe"), Person(name="Josh")))
+        }
+
+        dataService.add(testPeople)
+
+        val queryPeople = dataService.getAll()
+        Log.d(TAG, "Full list: $queryPeople")
+
+        queryPeople[0].people.forEach {
+            Log.d(TAG,"Person name: ${it.name}")
+        }
     }
 }
